@@ -14,7 +14,6 @@ from torch import nn, optim
 from torchsummary import summary
 
 
-
 def prepare_data(root, selected_classes, transform, target_transform, impaired, batch_size):
     # Specify Sig53 Options
     train = True
@@ -65,7 +64,7 @@ def prepare_data(root, selected_classes, transform, target_transform, impaired, 
     )
     val_dataloader = DataLoader(
         dataset=val_dataset,
-        batch_size=16,
+        batch_size=32,
         num_workers=8,
         shuffle=False,
         drop_last=True,
@@ -110,8 +109,8 @@ class ModelTrainer:
         self.best_val_accuracy = 0
         self.no_improvement_count = 0
         self.early_stopping_patience = 5
-        self.checkpoint_path = 'best_model_checkpoint.pth'
-        self.epoch_checkpoint_path = 'epoch_model_checkpoint.pth'
+        self.checkpoint_path = '/mnt/beegfs/home/mutaz.abueisheh/torchsig/Gradiant/best_model_checkpoint_7887.pth'
+        self.epoch_checkpoint_path = '/mnt/beegfs/home/mutaz.abueisheh/torchsig/Gradiant/epoch_model_checkpoint_7887.pth'
 
     def train_model(self):
         self.model.train()
@@ -199,11 +198,6 @@ class ModelTrainer:
 
     def run_training_loop(self, num_epochs):
         for epoch in range(num_epochs):
-            if epoch == 0:
-                if os.path.exists(self.epoch_checkpoint_path):
-                    os.remove(self.epoch_checkpoint_path)
-                if os.path.exists(self.checkpoint_path):
-                    os.remove(self.checkpoint_path)
 
             print(f"Epoch {epoch + 1}/{num_epochs}")
             train_loss, train_acc = self.train_model()
@@ -338,24 +332,19 @@ def save_metrics_plot(trainer, save_path):
     plt.ylabel('Accuracy (%)')
     plt.legend()
 
-    # Save the figure to the specified path
     plt.savefig(save_path)
     plt.close()
 
-
 def plot_conf_matrix(labels, predictions, class_names):
-
+    # Plot confusion matrix with class names
     cm = confusion_matrix(labels, predictions)
+    plt.figure(figsize=(15,15))
 
-    plt.figure(figsize=(20,20))
 
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=class_names)
-    disp.plot(cmap=plt.cm.Blues, xticks_rotation='vertical', include_values=False)
+    disp.plot(cmap=plt.cm.Blues, xticks_rotation='vertical')
     plt.title('Confusion Matrix')
     plt.show()
-
-
-
 
 
 def evaluate_pretrained(model, dataloader, device, class_list):
