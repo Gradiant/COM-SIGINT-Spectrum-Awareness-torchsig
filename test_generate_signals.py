@@ -11,9 +11,9 @@ default_classes = [
     "32psk", "64qam", "64pam", "64ask", "64psk", "128qam_cross", "256qam",
     "512qam_cross", "1024qam", "2fsk", "2gfsk", "2msk", "2gmsk", "4fsk",
     "4gfsk", "4msk", "4gmsk", "8fsk", "8gfsk", "8msk", "8gmsk", "16fsk",
-    "16gfsk", "16msk", "16gmsk", "ofdm-64", "ofdm-72", "ofdm-128", "ofdm-180",
-    "ofdm-256", "ofdm-300", "ofdm-512", "ofdm-600", "ofdm-900", "ofdm-1024",
-    "ofdm-1200", "ofdm-2048"
+    "16gfsk", "16msk", "16gmsk", "odfm-64", "odfm-72", "odfm-128", "odfm-180",
+    "odfm-256", "odfm-300", "odfm-512", "odfm-600", "odfm-900", "odfm-1024",
+    "odfm-1200", "odfm-2048"
 ]
 
 @pytest.fixture
