@@ -53,10 +53,10 @@ class SignalGenerator:
 
     def generate(self):
         for idx in range(self.num_samples):
-            data, label = self.dataset[idx]
-            data = data.astype(np.complex64)
+            sample, label = self.dataset[idx]
+            sample = sample.astype(np.complex64)
             signal_info = {
-                "data": data,
+                "sample": sample,
                 "label_index": label,
                 "label_class": self.idx_to_class[label],
             }
@@ -88,10 +88,10 @@ class SignalGenerator:
 
     def retrieve_signal(self, idx):
         signal_info = self.signals[idx]
-        data, label = self.dataset[idx]
-        data = data.astype(np.complex64)
+        sample, label = self.dataset[idx]
+        sample = sample.astype(np.complex64)
         return {
-            "data": data,
+            "sample": sample,
             "class_index": label,
             "class_name": self.idx_to_class[label],
             "signal_info": signal_info
@@ -104,8 +104,8 @@ class SignalGenerator:
                 super().__init__(dataset)
 
             def __getitem__(self, idx):
-                data = self.dataset[idx]
-                return data
+                sample = self.dataset[idx]
+                return sample
 
             def __len__(self) -> int:
                 return len(self.dataset)
@@ -164,7 +164,7 @@ def main():
     random_number = random.randrange(num_samples)
 
     sample_signal = signal_generator.retrieve_signal(random_number)
-    print("Sample Signal Info:", {k: sample_signal[k] for k in sample_signal if k != 'data'})
+    print("Sample Signal Info:", {k: sample_signal[k] for k in sample_signal if k != 'sample'})
 
     if args.save_plot:
         signal_generator.save_plot()

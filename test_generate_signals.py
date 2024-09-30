@@ -47,7 +47,7 @@ def test_generate_signals(signal_generator_instance):
     assert len(signal_generator_instance.signals) == signal_generator_instance.num_samples
 
     # Check if all generated signals are unique
-    signals_data = [signal["data"] for signal in signal_generator_instance.signals]
+    signals_data = [signal["sample"] for signal in signal_generator_instance.signals]
     # Convert each signal data array to a tuple for hashing and compare lengths
     unique_signals_data = set(map(lambda x: tuple(x), signals_data))
     assert len(unique_signals_data) == len(signals_data), "Generated signals are not unique"
@@ -74,13 +74,13 @@ def test_saved_file_format(signal_generator_instance):
         signals = pickle.load(f)
     assert isinstance(signals, list)
     for signal in signals:
-        assert "data" in signal
+        assert "sample" in signal
         assert "label_index" in signal
         assert "label_class" in signal
         assert "additional_info" in signal
 
         # Check data types
-        assert signal["data"].dtype == np.complex64
+        assert signal["sample"].dtype == np.complex64
         assert isinstance(signal["label_index"], int)
         assert isinstance(signal["label_class"], str)
         assert isinstance(signal["additional_info"], str)
